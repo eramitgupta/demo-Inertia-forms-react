@@ -20,6 +20,7 @@
         "wayfinder-development",
         "inertia-react-development",
         "tailwindcss-development",
-        "inertia-forms-development"
+        "inertia-forms-development",
+        "inertia-forms-translations"
     ]
 }

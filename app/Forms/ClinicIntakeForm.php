@@ -25,33 +25,40 @@ class ClinicIntakeForm extends Form
      */
     public function fields(): array
     {
+        $t = fn (string $key, array $replace = []): string => __("forms/clinic-intake.{$key}", $replace);
+
         return [
-            Fieldset::make('Patient')->columns(2)->fields([
-                TextInput::make('patient_name')->required()->placeholder('Jane Doe'),
-                DatePicker::make('birthday')->label('Date of birth')->required()->maxDate(today()->toDateString()),
-                TextInput::make('phone')->tel()->required(),
-                Combobox::make('reason')->label('Reason for visit')->required()->options([
-                    ['value' => 'checkup', 'label' => 'General check-up', 'description' => 'Routine visit'],
-                    ['value' => 'follow_up', 'label' => 'Follow-up', 'description' => 'After a previous visit'],
-                    ['value' => 'new_issue', 'label' => 'New problem', 'description' => 'Something new to look at'],
+            Fieldset::make($t('section_patient'))->columns(2)->fields([
+                TextInput::make('patient_name')->label($t('patient_name'))->required()->placeholder('Jane Doe'),
+                DatePicker::make('birthday')->label($t('birthday'))->required()->maxDate(today()->toDateString()),
+                TextInput::make('phone')->label($t('phone'))->tel()->required(),
+                Combobox::make('reason')->label($t('reason'))->required()->options([
+                    ['value' => 'checkup', 'label' => $t('reason_checkup'), 'description' => $t('reason_checkup_description')],
+                    ['value' => 'follow_up', 'label' => $t('reason_follow_up'), 'description' => $t('reason_follow_up_description')],
+                    ['value' => 'new_issue', 'label' => $t('reason_new_issue'), 'description' => $t('reason_new_issue_description')],
                 ]),
             ]),
-            Fieldset::make('Symptoms')->columns(2)->fields([
-                CheckboxGroup::make('symptoms')->options([
-                    'fever' => 'Fever',
-                    'cough' => 'Cough',
-                    'headache' => 'Headache',
-                    'fatigue' => 'Fatigue',
-                    'nausea' => 'Nausea',
+            Fieldset::make($t('section_symptoms'))->columns(2)->fields([
+                CheckboxGroup::make('symptoms')->label($t('symptoms'))->options([
+                    'fever' => $t('symptom_fever'),
+                    'cough' => $t('symptom_cough'),
+                    'headache' => $t('symptom_headache'),
+                    'fatigue' => $t('symptom_fatigue'),
+                    'nausea' => $t('symptom_nausea'),
                 ])->inline()->columnSpan(2),
-                Slider::make('pain_level')->min(0)->max(10)->default(0)->columnSpan(2),
-                TagsInput::make('allergies')->suggestions(['penicillin', 'peanuts', 'latex', 'pollen'])->columnSpan(2),
-                DatePicker::make('appointment_at')->label('Preferred appointment')->withTime()->minDate(now()->toDateString())->clearable(),
-                Toggle::make('insured')->label('I have insurance')->onLabel('Yes')->offLabel('No'),
-                TextInput::make('insurance_number')->required()->visibleWhen('insured', 'truthy')->clearWhenHidden()->columnSpan(2),
+                Slider::make('pain_level')->label($t('pain_level'))->min(0)->max(10)->default(0)->columnSpan(2),
+                TagsInput::make('allergies')->label($t('allergies'))->suggestions([
+                    $t('allergy_penicillin'),
+                    $t('allergy_peanuts'),
+                    $t('allergy_latex'),
+                    $t('allergy_pollen'),
+                ])->columnSpan(2),
+                DatePicker::make('appointment_at')->label($t('appointment_at'))->withTime()->minDate(now()->toDateString())->clearable(),
+                Toggle::make('insured')->label($t('insured'))->onLabel($t('yes'))->offLabel($t('no')),
+                TextInput::make('insurance_number')->label($t('insurance_number'))->required()->visibleWhen('insured', 'truthy')->clearWhenHidden()->columnSpan(2),
             ]),
-            Checkbox::make('consent')->label('I consent to the clinic storing this information')->rule('accepted'),
-            Submit::make('Send intake form')->processingLabel('Sending…'),
+            Checkbox::make('consent')->label($t('consent'))->rule('accepted'),
+            Submit::make($t('submit'))->processingLabel($t('submitting')),
         ];
     }
 }

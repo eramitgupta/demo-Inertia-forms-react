@@ -23,26 +23,28 @@ class CustomFieldsForm extends Form
      */
     public function fields(): array
     {
+        $t = fn (string $key, array $replace = []): string => __("forms/custom-fields.{$key}", $replace);
+
         return [
-            Fieldset::make('Order')->description('QuantityStepper is a custom field with min, max and a unit.')->columns(2)->fields([
-                Radio::make('ticket')->options([
-                    ['value' => 'standard', 'label' => 'Standard', 'description' => '$49 per ticket'],
-                    ['value' => 'vip', 'label' => 'VIP', 'description' => '$129, front rows and lounge'],
+            Fieldset::make($t('order'))->description($t('order_description'))->columns(2)->fields([
+                Radio::make('ticket')->label($t('ticket'))->options([
+                    ['value' => 'standard', 'label' => $t('ticket_standard'), 'description' => $t('ticket_standard_description')],
+                    ['value' => 'vip', 'label' => $t('ticket_vip'), 'description' => $t('ticket_vip_description')],
                 ])->default('standard')->columns(2)->columnSpan(2),
-                QuantityStepper::make('tickets')->min(1)->max(10)->unit('tickets')->default(2)->required(),
-                QuantityStepper::make('parking')->label('Parking spots')->min(0)->max(4)->unit('spots'),
+                QuantityStepper::make('tickets')->label($t('tickets'))->min(1)->max(10)->unit($t('tickets_unit'))->default(2)->required(),
+                QuantityStepper::make('parking')->label($t('parking'))->min(0)->max(4)->unit($t('parking_unit')),
             ]),
-            Fieldset::make('Verify')->description('CodeInput is a custom field: one box per digit, with paste support.')->fields([
-                TextInput::make('email')->email()->required()->placeholder('jane@example.com'),
-                CodeInput::make('code')->label('Verification code')->length(6)->required()
-                    ->help('Use 123456 in this demo.'),
+            Fieldset::make($t('verify'))->description($t('verify_description'))->fields([
+                TextInput::make('email')->label($t('email'))->email()->required()->placeholder('jane@example.com'),
+                CodeInput::make('code')->label($t('code'))->length(6)->required()
+                    ->help($t('code_help')),
             ]),
-            Fieldset::make('Feedback')->description('Rating is a custom field with keyboard support.')->fields([
-                Rating::make('rating')->label('How was the booking experience?')->stars(5)->required(),
-                Textarea::make('comment')->rows(3)->maxLength(200)->showCharacterCount()
-                    ->visibleWhen('rating', '<=', 3)->help('Shown when the rating is 3 stars or less.'),
+            Fieldset::make($t('feedback'))->description($t('feedback_description'))->fields([
+                Rating::make('rating')->label($t('rating'))->stars(5)->required(),
+                Textarea::make('comment')->label($t('comment'))->rows(3)->maxLength(200)->showCharacterCount()
+                    ->visibleWhen('rating', '<=', 3)->help($t('comment_help')),
             ]),
-            Submit::make('Book tickets')->processingLabel('Booking…'),
+            Submit::make($t('submit'))->processingLabel($t('submitting')),
         ];
     }
 }

@@ -29,6 +29,10 @@ use Erag\InertiaForms\Form;
 
 /**
  * Every field type and its main options on one page.
+ *
+ * All copy comes from lang/{locale}/demo.php, so the form follows the language
+ * picked in the header. The text the components add themselves (buttons,
+ * placeholders, calendar names) comes from lang/{locale}/forms-ui.php.
  */
 class AllFieldsForm extends Form
 {
@@ -37,76 +41,87 @@ class AllFieldsForm extends Form
      */
     public function fields(): array
     {
+        $t = fn (string $key): string => __("demo.all_fields.{$key}");
+
         return [
-            Fieldset::make('Text inputs')->description('TextInput types, prefix / suffix and clear button.')->columns(2)->fields([
-                TextInput::make('full_name')->required()->placeholder('Jane Doe')->clearable(),
-                TextInput::make('email')->email()->placeholder('jane@example.com'),
-                TextInput::make('password')->password()->minLength(8),
-                TextInput::make('phone')->tel()->placeholder('+91 98765 43210'),
-                TextInput::make('website')->url()->prefix('https://'),
-                TextInput::make('price')->number()->min(0)->step('0.01')->prefix('$')->suffix('USD'),
-                Textarea::make('about')->rows(3)->autoResize()->maxLength(200)->showCharacterCount()->columnSpan(2),
+            Fieldset::make($t('text_inputs'))->description($t('text_inputs_description'))->columns(2)->fields([
+                TextInput::make('full_name')->label($t('full_name'))->required()->placeholder('Jane Doe')->clearable(),
+                TextInput::make('email')->label($t('email'))->email()->placeholder('jane@example.com'),
+                TextInput::make('password')->label($t('password'))->password()->minLength(8),
+                TextInput::make('phone')->label($t('phone'))->tel()->placeholder('+91 98765 43210'),
+                TextInput::make('website')->label($t('website'))->url()->prefix('https://'),
+                TextInput::make('price')->label($t('price'))->number()->min(0)->step('0.01')->prefix('$')->suffix('USD'),
+                Textarea::make('about')->label($t('about'))->rows(3)->autoResize()->maxLength(200)->showCharacterCount()->columnSpan(2),
             ]),
-            Fieldset::make('Selects and lists')->description('Custom dropdowns with descriptions, search and chips, key-value rows and tags.')->columns(2)->fields([
-                Combobox::make('plan')->clearable()->options([
-                    ['value' => 'free', 'label' => 'Free', 'description' => 'For side projects'],
-                    ['value' => 'pro', 'label' => 'Pro', 'description' => 'For growing teams'],
-                    ['value' => 'enterprise', 'label' => 'Enterprise', 'description' => 'SSO, audit log and support'],
+            Fieldset::make($t('selects'))->description($t('selects_description'))->columns(2)->fields([
+                Combobox::make('plan')->label($t('plan'))->clearable()->options([
+                    ['value' => 'free', 'label' => $t('plan_free'), 'description' => $t('plan_free_description')],
+                    ['value' => 'pro', 'label' => $t('plan_pro'), 'description' => $t('plan_pro_description')],
+                    ['value' => 'enterprise', 'label' => $t('plan_enterprise'), 'description' => $t('plan_enterprise_description')],
                 ]),
-                Combobox::make('country')->searchable()->clearable()->options([
-                    'IN' => 'India',
-                    'US' => 'United States',
-                    'GB' => 'United Kingdom',
-                    'DE' => 'Germany',
-                    'JP' => 'Japan',
+                Combobox::make('country')->label($t('country'))->searchable()->clearable()->options([
+                    'IN' => $t('country_in'),
+                    'US' => $t('country_us'),
+                    'GB' => $t('country_gb'),
+                    'DE' => $t('country_de'),
+                    'JP' => $t('country_jp'),
                 ]),
-                Combobox::make('frameworks')->multiple()->searchable()->clearable()
+                Combobox::make('frameworks')->label($t('frameworks'))->multiple()->searchable()->clearable()
                     ->options(['Laravel', 'Inertia', 'Vue', 'React', 'Svelte', 'Tailwind CSS'])->columnSpan(2),
-                KeyValue::make('headers')->label('Request headers')->keyLabel('Header')->keyPlaceholder('Accept')
-                    ->valuePlaceholder('application/json')->addActionLabel('Add header')->columnSpan(2),
-                TagsInput::make('keywords')->suggestions(['laravel', 'inertia', 'forms', 'tailwind'])
+                KeyValue::make('headers')->label($t('headers'))->keyLabel($t('header'))->keyPlaceholder('Accept')
+                    ->valuePlaceholder('application/json')->addActionLabel($t('add_header'))->columnSpan(2),
+                TagsInput::make('keywords')->label($t('keywords'))->suggestions(['laravel', 'inertia', 'forms', 'tailwind'])
                     ->maxTags(6)->reorderable()->columnSpan(2),
             ]),
-            Fieldset::make('Choices')->description('Radio cards, segmented buttons, checkbox pills and toggles.')->columns(2)->fields([
-                Radio::make('shipping')->options([
-                    ['value' => 'standard', 'label' => 'Standard', 'description' => '3 to 5 business days'],
-                    ['value' => 'express', 'label' => 'Express', 'description' => 'Next business day'],
+            Fieldset::make($t('choices'))->description($t('choices_description'))->columns(2)->fields([
+                Radio::make('shipping')->label($t('shipping'))->options([
+                    ['value' => 'standard', 'label' => $t('shipping_standard'), 'description' => $t('shipping_standard_description')],
+                    ['value' => 'express', 'label' => $t('shipping_express'), 'description' => $t('shipping_express_description')],
                 ])->default('standard')->columns(2)->columnSpan(2),
-                Radio::make('size')->options(['S', 'M', 'L', 'XL'])->buttons()->default('M'),
-                Radio::make('contact_by')->options(['email' => 'Email', 'phone' => 'Phone', 'none' => 'None'])->inline(),
-                CheckboxGroup::make('channels')->options(['email' => 'Email', 'sms' => 'SMS', 'push' => 'Push'])->buttons(),
-                CheckboxGroup::make('days')->options(['mon' => 'Mon', 'tue' => 'Tue', 'wed' => 'Wed', 'thu' => 'Thu', 'fri' => 'Fri'])->inline(),
-                Toggle::make('notifications')->onLabel('On')->offLabel('Off')->default(true),
-                Checkbox::make('newsletter')->label('Subscribe to the newsletter'),
+                Radio::make('size')->label($t('size'))->options(['S', 'M', 'L', 'XL'])->buttons()->default('M'),
+                Radio::make('contact_by')->label($t('contact_by'))
+                    ->options(['email' => $t('contact_email'), 'phone' => $t('contact_phone'), 'none' => $t('contact_none')])->inline(),
+                CheckboxGroup::make('channels')->label($t('channels'))
+                    ->options(['email' => $t('channel_email'), 'sms' => $t('channel_sms'), 'push' => $t('channel_push')])->buttons(),
+                CheckboxGroup::make('days')->label($t('days'))->options([
+                    'mon' => $t('day_mon'),
+                    'tue' => $t('day_tue'),
+                    'wed' => $t('day_wed'),
+                    'thu' => $t('day_thu'),
+                    'fri' => $t('day_fri'),
+                ])->inline(),
+                Toggle::make('notifications')->label($t('notifications'))->onLabel($t('on'))->offLabel($t('off'))->default(true),
+                Checkbox::make('newsletter')->label($t('newsletter')),
             ]),
-            Fieldset::make('Dates and times')->description('Calendar, range, date with time, and time columns.')->columns(2)->fields([
-                DatePicker::make('start_date')->minDate(now()->toDateString())->clearable(),
-                DatePicker::make('meeting_at')->label('Meeting')->withTime()->clearable(),
-                DatePicker::make('stay')->range()->firstDayOfWeek(1)->columnSpan(2),
-                TimePicker::make('opens_at')->minuteStep(15)->clearable(),
-                TimePicker::make('duration')->withSeconds()->clearable(),
+            Fieldset::make($t('dates'))->description($t('dates_description'))->columns(2)->fields([
+                DatePicker::make('start_date')->label($t('start_date'))->minDate(now()->toDateString())->clearable(),
+                DatePicker::make('meeting_at')->label($t('meeting'))->withTime()->clearable(),
+                DatePicker::make('stay')->label($t('stay'))->range()->firstDayOfWeek(1)->columnSpan(2),
+                TimePicker::make('opens_at')->label($t('opens_at'))->minuteStep(15)->clearable(),
+                TimePicker::make('duration')->label($t('duration'))->withSeconds()->clearable(),
             ]),
-            Fieldset::make('Colors, sliders and files')->columns(2)->fields([
-                ColorPicker::make('brand_color')->swatches(['#4f46e5', '#0ea5e9', '#10b981', '#f59e0b', '#e11d48', '#9333ea'])
+            Fieldset::make($t('colors'))->columns(2)->fields([
+                ColorPicker::make('brand_color')->label($t('brand_color'))
+                    ->swatches(['#4f46e5', '#0ea5e9', '#10b981', '#f59e0b', '#e11d48', '#9333ea'])
                     ->default('#7c3aed')->clearable(),
-                Slider::make('volume')->min(0)->max(100)->step(5)->suffix('%')->default(40),
-                FileUpload::make('photo')->image()->maxSize(2048),
-                FileUpload::make('attachments')->multiple()->maxFiles(3)->accept(['pdf', 'docx'])->maxSize(4096),
+                Slider::make('volume')->label($t('volume'))->min(0)->max(100)->step(5)->suffix('%')->default(40),
+                FileUpload::make('photo')->label($t('photo'))->image()->maxSize(2048),
+                FileUpload::make('attachments')->label($t('attachments'))->multiple()->maxFiles(3)->accept(['pdf', 'docx'])->maxSize(4096),
             ]),
-            Fieldset::make('Links, slugs and display')->description('Slugs, codes, links and repeating rows.')->columns(2)->fields([
-                TextInput::make('page_title')->placeholder('Hello world'),
-                Slug::make('page_slug')->from('page_title')->prefix('example.test/'),
-                Link::make('homepage')->placeholder('example.test'),
-                OtpInput::make('pin')->label('PIN')->length(4)->password(),
-                Repeater::make('contacts')->itemLabel('Contact')->titleFrom('name')->columns(2)->columnSpan(2)->fields([
-                    TextInput::make('name')->required(),
-                    TextInput::make('email')->email(),
+            Fieldset::make($t('links'))->description($t('links_description'))->columns(2)->fields([
+                TextInput::make('page_title')->label($t('page_title'))->placeholder($t('page_title_placeholder')),
+                Slug::make('page_slug')->label($t('page_slug'))->from('page_title')->prefix('example.test/'),
+                Link::make('homepage')->label($t('homepage'))->placeholder('example.test'),
+                OtpInput::make('pin')->label($t('pin'))->length(4)->password(),
+                Repeater::make('contacts')->label($t('contacts'))->itemLabel($t('contact'))->titleFrom('name')->columns(2)->columnSpan(2)->fields([
+                    TextInput::make('name')->label($t('name'))->required(),
+                    TextInput::make('email')->label($t('email'))->email(),
                 ]),
-                Callout::make('Heads up', 'Display helpers like this one have no value and are not submitted.')->info(),
+                Callout::make($t('callout_title'), $t('callout_body'))->info(),
             ]),
-            Checkbox::make('terms')->label('I agree to the terms')->rule('accepted'),
+            Checkbox::make('terms')->label($t('terms'))->rule('accepted'),
             Hidden::make('source')->default('all-fields-demo'),
-            Submit::make('Submit all fields')->processingLabel('Submitting…'),
+            Submit::make($t('submit'))->processingLabel($t('submitting')),
         ];
     }
 }

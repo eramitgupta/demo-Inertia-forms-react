@@ -1,3 +1,4 @@
+import { useTranslate } from '@erag/inertia-forms-react';
 import type { FieldComponentProps } from '@erag/inertia-forms-react';
 import { useRef } from 'react';
 import type { ClipboardEvent, KeyboardEvent } from 'react';
@@ -14,6 +15,7 @@ export function CodeInput({
     describedBy,
     onChange,
 }: FieldComponentProps) {
+    const t = useTranslate();
     const length = Number(field.length ?? 6);
     const code = typeof value === 'string' ? value.replace(/\D/g, '') : '';
     // The code just typed, before the new value comes back as a prop.
@@ -97,7 +99,10 @@ export function CodeInput({
                     type="text"
                     inputMode="numeric"
                     autoComplete={index === 0 ? 'one-time-code' : 'off'}
-                    aria-label={`Digit ${index + 1} of ${length}`}
+                    aria-label={t('otp_digit', {
+                        number: index + 1,
+                        total: length,
+                    })}
                     aria-invalid={error ? true : undefined}
                     value={code[index] ?? ''}
                     disabled={locked}

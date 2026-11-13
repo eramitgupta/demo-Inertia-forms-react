@@ -35,8 +35,13 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        // Language files the pages read with Lang Sync Inertia (props.lang).
+        syncLangFiles(['forms-ui', 'demo']);
+
         return [
             ...parent::share($request),
+            'locale' => app()->getLocale(),
+            'locales' => config('app.locales'),
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),

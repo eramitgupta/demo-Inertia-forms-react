@@ -396,7 +396,7 @@ test('the author select searches on the server and rejects unknown authors', fun
 test('the onboarding wizard checks each step on the server', function () {
     $form = $this->get(route('forms-demo.create', 'onboarding-wizard'))->inertiaProps('form');
 
-    expect($form['wizard'])->toMatchArray(['nextLabel' => 'Continue', 'backLabel' => 'Back'])
+    expect($form['wizard'])->toMatchArray(['nextLabel' => null, 'backLabel' => null])
         ->and(array_column($form['fieldsets'], 'icon'))->toContain('user', 'briefcase', 'shield');
 
     $step = fn (int $index, array $data) => $this->postJson($form['wizard']['validateUrl'], [

@@ -1,3 +1,4 @@
+import { reactLang } from '@erag/lang-sync-inertia/react';
 import { Link } from '@inertiajs/react';
 import type { InertiaLinkProps } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
@@ -26,6 +27,8 @@ export function FormsDemoPanel({
     data,
     children,
 }: FormsDemoPanelProps) {
+    const { __, trans } = reactLang();
+
     return (
         <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_22rem]">
             <Card>
@@ -33,16 +36,15 @@ export function FormsDemoPanel({
                     <div className="grid gap-1.5">
                         <CardTitle>{title}</CardTitle>
                         <CardDescription>
-                            Defined in <code>app/Forms/{className}.php</code>{' '}
-                            and rendered with one <code>&lt;Form&gt;</code>{' '}
-                            component. Saving validates it on the server and
-                            stores it with <code>FormEntryService</code>.
+                            {trans('demo.page.panel_description', {
+                                file: `app/Forms/${className}.php`,
+                            })}
                         </CardDescription>
                     </div>
                     <Button variant="outline" size="sm" asChild>
                         <Link href={backHref}>
                             <ArrowLeft />
-                            Back
+                            {__('demo.page.back')}
                         </Link>
                     </Button>
                 </CardHeader>
@@ -51,10 +53,9 @@ export function FormsDemoPanel({
 
             <Card className="h-fit">
                 <CardHeader>
-                    <CardTitle>Stored data</CardTitle>
+                    <CardTitle>{__('demo.page.stored_data')}</CardTitle>
                     <CardDescription>
-                        What <code>FormEntryService</code> saved in the{' '}
-                        <code>form_entries</code> table. Secrets are masked.
+                        {__('demo.page.stored_data_description')}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -64,8 +65,7 @@ export function FormsDemoPanel({
                         </pre>
                     ) : (
                         <p className="rounded-md border border-dashed p-3 text-sm text-muted-foreground">
-                            Nothing saved yet. Submit the form to create an
-                            entry.
+                            {__('demo.page.nothing_saved')}
                         </p>
                     )}
                 </CardContent>

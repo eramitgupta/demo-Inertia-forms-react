@@ -48,56 +48,58 @@ class EditorialCalendarForm extends Form
      */
     public function fields(): array
     {
+        $t = fn (string $key, array $replace = []): string => __("forms/editorial-calendar.{$key}", $replace);
+
         return [
-            Fieldset::make('Article')->columns(2)->fields([
-                TextInput::make('headline')->required()->maxLength(90)->placeholder('Ten tips for faster forms')->columnSpan(2),
-                Combobox::make('author')->required()->clearable()->placeholder('Search authors…')
+            Fieldset::make($t('article'))->columns(2)->fields([
+                TextInput::make('headline')->label($t('headline'))->required()->maxLength(90)->placeholder($t('headline_placeholder'))->columnSpan(2),
+                Combobox::make('author')->label($t('author'))->required()->clearable()->placeholder($t('author_placeholder'))
                     ->searchUsing(fn (string $search): array => $this->authorOptions(
                         fn (array $author): bool => $search === '' || str_contains(strtolower($author['name'].' '.$author['email']), strtolower($search)),
                     ))
                     ->selectedOptionsUsing(fn (array $ids): array => $this->authorOptions(
                         fn (array $author): bool => in_array((string) $author['id'], array_map('strval', $ids), true),
                     )),
-                Radio::make('section')->options(['news' => 'News', 'guides' => 'Guides', 'opinion' => 'Opinion'])->buttons()->default('guides'),
-                Textarea::make('summary')->rows(3)->autoResize()->maxLength(200)->showCharacterCount()->columnSpan(2),
+                Radio::make('section')->label($t('section'))->options(['news' => $t('section_news'), 'guides' => $t('section_guides'), 'opinion' => $t('section_opinion')])->buttons()->default('guides'),
+                Textarea::make('summary')->label($t('summary'))->rows(3)->autoResize()->maxLength(200)->showCharacterCount()->columnSpan(2),
             ]),
-            Fieldset::make('Body')->fields([
-                Blocks::make('body')->label('Body outline')->addActionLabel('Add content block')->maxItems(12)
+            Fieldset::make($t('body'))->fields([
+                Blocks::make('body')->label($t('body_outline'))->addActionLabel($t('add_block'))->maxItems(12)
                     ->blocks([
-                        Block::make('section')->description('Heading with notes')->titleFrom('heading')->fields([
-                            TextInput::make('heading')->required()->maxLength(90),
-                            Textarea::make('summary')->rows(2)->autoResize(),
+                        Block::make('section')->label($t('block_section'))->description($t('block_section_description'))->titleFrom('heading')->fields([
+                            TextInput::make('heading')->label($t('heading'))->required()->maxLength(90),
+                            Textarea::make('summary')->label($t('summary'))->rows(2)->autoResize(),
                         ]),
-                        Block::make('quote')->description('Pull quote')->icon('Q')->columns(2)->fields([
-                            Textarea::make('text')->label('Quote')->required()->rows(2)->columnSpan(2),
-                            TextInput::make('author')->required(),
-                            TextInput::make('source')->placeholder('Book, talk or link'),
+                        Block::make('quote')->label($t('block_quote'))->description($t('block_quote_description'))->icon('Q')->columns(2)->fields([
+                            Textarea::make('text')->label($t('quote'))->required()->rows(2)->columnSpan(2),
+                            TextInput::make('author')->label($t('author'))->required(),
+                            TextInput::make('source')->label($t('source'))->placeholder($t('source_placeholder')),
                         ]),
-                        Block::make('image')->description('Picture with a caption')->icon('I')->fields([
-                            FileUpload::make('file')->image()->maxSize(3072),
-                            TextInput::make('caption'),
+                        Block::make('image')->label($t('block_image'))->description($t('block_image_description'))->icon('I')->fields([
+                            FileUpload::make('file')->label($t('file'))->image()->maxSize(3072),
+                            TextInput::make('caption')->label($t('caption')),
                         ]),
                     ])
                     ->default([
-                        ['type' => 'section', 'data' => ['heading' => 'Why forms belong in PHP']],
-                        ['type' => 'quote', 'data' => ['text' => 'One class drives the page and the validation.', 'author' => 'Aisha Khan']],
+                        ['type' => 'section', 'data' => ['heading' => $t('default_heading')]],
+                        ['type' => 'quote', 'data' => ['text' => $t('default_quote'), 'author' => 'Aisha Khan']],
                     ]),
             ]),
-            Fieldset::make('Publishing')->columns(2)->fields([
-                Combobox::make('status')->options([
-                    ['value' => 'draft', 'label' => 'Draft', 'description' => 'Still being written'],
-                    ['value' => 'review', 'label' => 'In review', 'description' => 'Waiting for an editor'],
-                    ['value' => 'scheduled', 'label' => 'Scheduled', 'description' => 'Goes live at a set time'],
+            Fieldset::make($t('publishing'))->columns(2)->fields([
+                Combobox::make('status')->label($t('status'))->options([
+                    ['value' => 'draft', 'label' => $t('status_draft'), 'description' => $t('status_draft_description')],
+                    ['value' => 'review', 'label' => $t('status_review'), 'description' => $t('status_review_description')],
+                    ['value' => 'scheduled', 'label' => $t('status_scheduled'), 'description' => $t('status_scheduled_description')],
                 ])->default('draft'),
-                DatePicker::make('publish_at')->withTime()->required()->minDate(now()->toDateString())
+                DatePicker::make('publish_at')->label($t('publish_at'))->withTime()->required()->minDate(now()->toDateString())
                     ->visibleWhen('status', 'scheduled')->clearWhenHidden(),
-                TagsInput::make('tags')->suggestions(['laravel', 'inertia', 'tutorial', 'release'])->reorderable()->maxTags(5)->columnSpan(2),
-                FileUpload::make('cover_image')->image()->maxSize(3072),
-                ColorPicker::make('accent')->label('Accent color')->swatches(['#4f46e5', '#0f766e', '#b45309', '#be123c'])->default('#0f766e'),
-                Slider::make('word_target')->label('Word count target')->min(300)->max(3000)->step(100)->default(1200)->columnSpan(2),
-                Toggle::make('featured')->label('Feature on the home page')->onLabel('Yes')->offLabel('No'),
+                TagsInput::make('tags')->label($t('tags'))->suggestions(['laravel', 'inertia', $t('tag_tutorial'), $t('tag_release')])->reorderable()->maxTags(5)->columnSpan(2),
+                FileUpload::make('cover_image')->label($t('cover_image'))->image()->maxSize(3072),
+                ColorPicker::make('accent')->label($t('accent'))->swatches(['#4f46e5', '#0f766e', '#b45309', '#be123c'])->default('#0f766e'),
+                Slider::make('word_target')->label($t('word_target'))->min(300)->max(3000)->step(100)->default(1200)->columnSpan(2),
+                Toggle::make('featured')->label($t('featured'))->onLabel($t('yes'))->offLabel($t('no')),
             ]),
-            Submit::make('Save article')->processingLabel('Saving…'),
+            Submit::make($t('submit'))->processingLabel($t('saving')),
         ];
     }
 

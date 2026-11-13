@@ -1,4 +1,5 @@
 import { Form, type FormSchema } from '@erag/inertia-forms-react';
+import { reactLang } from '@erag/lang-sync-inertia/react';
 import { Head } from '@inertiajs/react';
 import { CodeInput } from '@/components/form-fields/code-input';
 import { QuantityStepper } from '@/components/form-fields/quantity-stepper';
@@ -28,9 +29,11 @@ export default function FormsDemoForm({
     entry,
 }: FormsDemoFormProps) {
     const [accent, setAccent] = useDemoAccent();
-    const title = entry
-        ? `Edit ${label.toLowerCase()} entry`
-        : `New ${label.toLowerCase()} entry`;
+    const { trans } = reactLang();
+    const title = trans(
+        entry ? 'demo.page.edit_entry' : 'demo.page.new_entry',
+        { name: label.toLowerCase() },
+    );
 
     return (
         <>

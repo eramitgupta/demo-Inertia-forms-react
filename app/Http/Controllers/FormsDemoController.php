@@ -182,10 +182,20 @@ class FormsDemoController extends Controller
     {
         return [
             'demo' => $demo,
-            'label' => self::DEMOS[$demo]['label'],
+            'label' => self::label($demo),
             'className' => class_basename(self::formClass($demo)),
-            'demos' => collect(self::DEMOS)->map(fn (array $item): string => $item['label']),
+            'demos' => collect(self::DEMOS)->map(fn (array $item, string $key): string => self::label($key)),
         ];
+    }
+
+    /**
+     * The demo's name in the current language, falling back to the English label.
+     */
+    protected static function label(string $demo): string
+    {
+        $key = "demo.demos.{$demo}";
+
+        return trans()->has($key) ? __($key) : self::DEMOS[$demo]['label'];
     }
 
     /**

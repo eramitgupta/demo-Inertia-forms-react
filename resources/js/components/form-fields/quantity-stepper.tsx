@@ -1,3 +1,4 @@
+import { reactLang } from '@erag/lang-sync-inertia/react';
 import type { FieldComponentProps } from '@erag/inertia-forms-react';
 
 const buttonClass =
@@ -16,6 +17,7 @@ export function QuantityStepper({
     describedBy,
     onChange,
 }: FieldComponentProps) {
+    const { trans } = reactLang();
     const min = Number(field.min ?? 0);
     const max = Number(field.max ?? 99);
     const step = Number(field.step ?? 1);
@@ -32,7 +34,9 @@ export function QuantityStepper({
             >
                 <button
                     type="button"
-                    aria-label={`Decrease ${field.label}`}
+                    aria-label={trans('demo.fields.decrease', {
+                        label: field.label,
+                    })}
                     disabled={locked || (number ?? min) <= min}
                     className={buttonClass}
                     onClick={() => onChange(clamp((number ?? min) - step))}
@@ -62,7 +66,9 @@ export function QuantityStepper({
                 />
                 <button
                     type="button"
-                    aria-label={`Increase ${field.label}`}
+                    aria-label={trans('demo.fields.increase', {
+                        label: field.label,
+                    })}
                     disabled={locked || (number ?? min) >= max}
                     className={buttonClass}
                     onClick={() => onChange(clamp((number ?? min) + step))}

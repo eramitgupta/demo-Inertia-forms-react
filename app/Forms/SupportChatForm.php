@@ -20,11 +20,13 @@ class SupportChatForm extends Form
      */
     public function fields(): array
     {
+        $t = fn (string $key, array $replace = []): string => __("forms/support-chat.{$key}", $replace);
+
         return [
-            Text::make('Reply to the customer. Attach screenshots or invoices if they help.'),
-            Composer::make('reply')->label('First reply')->required()->placeholder('Write a reply…')
+            Text::make($t('intro')),
+            Composer::make('reply')->label($t('reply'))->required()->placeholder($t('reply_placeholder'))
                 ->accept(['png', 'jpg', 'pdf'])->maxFiles(3)->maxSize(4096)->maxLength(2000)
-                ->quickReplies(['Thanks for reaching out!', 'Could you share a screenshot?', 'This is fixed now.']),
+                ->quickReplies([$t('quick_thanks'), $t('quick_screenshot'), $t('quick_fixed')]),
         ];
     }
 }

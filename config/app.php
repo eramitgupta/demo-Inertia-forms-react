@@ -82,6 +82,21 @@ return [
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Languages
+    |--------------------------------------------------------------------------
+    |
+    | The languages people can pick from the switcher in the page header.
+    |
+    */
+
+    'locales' => [
+        'en' => 'English',
+        'nl' => 'Nederlands',
+        'hi' => 'हिन्दी',
+    ],
+
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
     /*

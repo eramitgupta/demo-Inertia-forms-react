@@ -24,29 +24,31 @@ class OnboardingWizardForm extends Form
      */
     public function fields(): array
     {
+        $t = fn (string $key, array $replace = []): string => __("forms/onboarding-wizard.{$key}", $replace);
+
         return [
-            Fieldset::make('Account')->description('Create your login')->icon('user')->fields([
-                TextInput::make('name')->required()->placeholder('Jane Example'),
-                TextInput::make('email')->email()->required()->placeholder('jane@example.test'),
-                TextInput::make('password')->password()->required()->minLength(8),
+            Fieldset::make($t('account'))->description($t('account_description'))->icon('user')->fields([
+                TextInput::make('name')->label($t('name'))->required()->placeholder('Jane Example'),
+                TextInput::make('email')->label($t('email'))->email()->required()->placeholder('jane@example.test'),
+                TextInput::make('password')->label($t('password'))->password()->required()->minLength(8),
             ]),
-            Fieldset::make('Workspace')->description('Tell us about your team')->icon('briefcase')->columns(2)->fields([
-                TextInput::make('workspace')->label('Workspace name')->required()->placeholder('Acme Studio'),
-                Slug::make('workspace_url')->label('Workspace URL')->from('workspace')->prefix('app.example.test/')->required(),
-                Radio::make('team_size')->options(['1' => 'Just me', '2-10' => '2–10', '11-50' => '11–50', '50+' => '50+'])
+            Fieldset::make($t('workspace'))->description($t('workspace_description'))->icon('briefcase')->columns(2)->fields([
+                TextInput::make('workspace')->label($t('workspace_name'))->required()->placeholder('Acme Studio'),
+                Slug::make('workspace_url')->label($t('workspace_url'))->from('workspace')->prefix('app.example.test/')->required(),
+                Radio::make('team_size')->label($t('team_size'))->options(['1' => $t('team_size_solo'), '2-10' => '2–10', '11-50' => '11–50', '50+' => '50+'])
                     ->buttons()->default('2-10')->columnSpan(2),
             ]),
-            Fieldset::make('Verify')->description('Confirm your email')->icon('shield')->fields([
-                Callout::make('Check your inbox', 'We sent a 6-digit code to your email. Use 123456 in this demo.')->info(),
-                OtpInput::make('code')->label('Verification code')->length(6)->groupSize(3)->required()
+            Fieldset::make($t('verify'))->description($t('verify_description'))->icon('shield')->fields([
+                Callout::make($t('callout_title'), $t('callout_body'))->info(),
+                OtpInput::make('code')->label($t('code'))->length(6)->groupSize(3)->required()
                     ->rule('in:123456'),
             ]),
-            Submit::make('Create account')->icon('check')->processingLabel('Creating…'),
+            Submit::make($t('submit'))->icon('check')->processingLabel($t('submitting')),
         ];
     }
 
     public function messages(): array
     {
-        return ['code.in' => 'That code is not right. Use 123456 in this demo.'];
+        return ['code.in' => __('forms/onboarding-wizard.code_invalid')];
     }
 }

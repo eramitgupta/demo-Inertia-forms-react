@@ -25,28 +25,35 @@ class EventSessionForm extends Form
      */
     public function fields(): array
     {
+        $t = fn (string $key, array $replace = []): string => __("forms/event-session.{$key}", $replace);
+
         return [
-            Fieldset::make('Session')->columns(2)->fields([
-                TextInput::make('title')->required()->placeholder('Building forms with Inertia')->columnSpan(2),
-                DatePicker::make('dates')->label('Session dates')->range()->required()->columnSpan(2),
-                TimePicker::make('starts_at')->label('Start time')->minuteStep(15)->required()->clearable(),
-                TimePicker::make('ends_at')->label('End time')->minuteStep(15)->clearable(),
+            Fieldset::make($t('session'))->columns(2)->fields([
+                TextInput::make('title')->label($t('title'))->required()->placeholder($t('title_placeholder'))->columnSpan(2),
+                DatePicker::make('dates')->label($t('dates'))->range()->required()->columnSpan(2),
+                TimePicker::make('starts_at')->label($t('starts_at'))->minuteStep(15)->required()->clearable(),
+                TimePicker::make('ends_at')->label($t('ends_at'))->minuteStep(15)->clearable(),
             ]),
-            Fieldset::make('Format')->columns(2)->fields([
-                Radio::make('format')->options([
-                    ['value' => 'in_person', 'label' => 'In person', 'description' => 'At the venue'],
-                    ['value' => 'online', 'label' => 'Online', 'description' => 'Live stream only'],
-                    ['value' => 'hybrid', 'label' => 'Hybrid', 'description' => 'Venue and stream'],
+            Fieldset::make($t('format_section'))->columns(2)->fields([
+                Radio::make('format')->label($t('format'))->options([
+                    ['value' => 'in_person', 'label' => $t('format_in_person'), 'description' => $t('format_in_person_description')],
+                    ['value' => 'online', 'label' => $t('format_online'), 'description' => $t('format_online_description')],
+                    ['value' => 'hybrid', 'label' => $t('format_hybrid'), 'description' => $t('format_hybrid_description')],
                 ])->default('in_person')->columns(3)->columnSpan(2),
-                Combobox::make('room')->options(['Main hall', 'Workshop A', 'Workshop B', 'Studio'])->required()
+                Combobox::make('room')->label($t('room'))->options([
+                    'Main hall' => $t('room_main_hall'),
+                    'Workshop A' => $t('room_workshop_a'),
+                    'Workshop B' => $t('room_workshop_b'),
+                    'Studio' => $t('room_studio'),
+                ])->required()
                     ->visibleWhen('format', 'in', ['in_person', 'hybrid'])->clearWhenHidden(),
-                TextInput::make('meeting_link')->url()->required()->placeholder('https://meet.example.com/…')
+                TextInput::make('meeting_link')->label($t('meeting_link'))->url()->required()->placeholder('https://meet.example.com/…')
                     ->visibleWhen('format', 'in', ['online', 'hybrid'])->clearWhenHidden(),
-                Slider::make('capacity')->min(10)->max(300)->step(10)->default(50)->columnSpan(2),
-                TagsInput::make('speakers')->placeholder('Add a speaker and press Enter')->reorderable()->columnSpan(2),
-                Toggle::make('recorded')->label('Record this session')->onLabel('Yes')->offLabel('No'),
+                Slider::make('capacity')->label($t('capacity'))->min(10)->max(300)->step(10)->default(50)->columnSpan(2),
+                TagsInput::make('speakers')->label($t('speakers'))->placeholder($t('speakers_placeholder'))->reorderable()->columnSpan(2),
+                Toggle::make('recorded')->label($t('recorded'))->onLabel($t('yes'))->offLabel($t('no')),
             ]),
-            Submit::make('Save session')->processingLabel('Saving…'),
+            Submit::make($t('submit'))->processingLabel($t('submitting')),
         ];
     }
 }

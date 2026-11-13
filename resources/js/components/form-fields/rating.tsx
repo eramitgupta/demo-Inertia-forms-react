@@ -1,4 +1,5 @@
 import type { FieldComponentProps } from '@erag/inertia-forms-react';
+import { reactLang } from '@erag/lang-sync-inertia/react';
 import { useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 
@@ -17,6 +18,7 @@ export function Rating({
     describedBy,
     onChange,
 }: FieldComponentProps) {
+    const { __, trans } = reactLang();
     const stars = Number(field.stars ?? 5);
     const current = Number(value) || 0;
     const [hover, setHover] = useState(0);
@@ -69,7 +71,7 @@ export function Rating({
                             type="button"
                             role="radio"
                             aria-checked={current === star}
-                            aria-label={`${star} of ${stars} stars`}
+                            aria-label={trans('demo.fields.star_of', { star, stars })}
                             tabIndex={star === (current || 1) ? 0 : -1}
                             disabled={locked}
                             className="rounded-md p-0.5 transition hover:scale-110 focus-visible:ring-2 focus-visible:ring-[var(--erag-form-accent,#4f46e5)] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
@@ -95,7 +97,7 @@ export function Rating({
                 )}
             </div>
             <span className="text-sm text-zinc-500 tabular-nums dark:text-zinc-400">
-                {shown ? `${shown} / ${stars}` : 'Not rated yet'}
+                {shown ? `${shown} / ${stars}` : __('demo.fields.not_rated')}
             </span>
         </div>
     );
