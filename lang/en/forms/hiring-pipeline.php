@@ -1,0 +1,46 @@
+<?php
+
+/*
+ * Text for HiringPipelineForm.
+ */
+
+return [
+    'section_role' => 'Role',
+    'role_title' => 'Role title',
+    'role_title_placeholder' => 'Senior Laravel developer',
+    'department' => 'Department',
+    'department_engineering' => 'Engineering',
+    'department_design' => 'Design',
+    'department_product' => 'Product',
+    'department_marketing' => 'Marketing',
+    'department_support' => 'Support',
+    'employment' => 'Employment',
+    'employment_full_time' => 'Full-time',
+    'employment_part_time' => 'Part-time',
+    'employment_contract' => 'Contract',
+    'salary_min' => 'Salary min',
+    'salary_max' => 'Salary max',
+    'per_year' => '/yr',
+    'section_location' => 'Location',
+    'workplace' => 'Workplace',
+    'workplace_remote' => 'Remote',
+    'workplace_remote_description' => 'Work from anywhere',
+    'workplace_hybrid' => 'Hybrid',
+    'workplace_hybrid_description' => 'Two days in the office',
+    'workplace_onsite' => 'On-site',
+    'workplace_onsite_description' => 'Every day in the office',
+    'office' => 'Office',
+    'office_bengaluru' => 'Bengaluru',
+    'office_berlin' => 'Berlin',
+    'office_london' => 'London',
+    'office_new_york' => 'New York',
+    'office_singapore' => 'Singapore',
+    'start_date' => 'Start date',
+    'section_pipeline' => 'Pipeline',
+    'skills' => 'Skills',
+    'skill_testing' => 'Testing',
+    'stages' => 'Stages',
+    'stages_help' => 'Drag the stages into order.',
+    'submit' => 'Open role',
+    'submitting' => 'Opening…',
+];

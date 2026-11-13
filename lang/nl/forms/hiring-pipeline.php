@@ -1,0 +1,46 @@
+<?php
+
+/*
+ * Text for HiringPipelineForm.
+ */
+
+return [
+    'section_role' => 'Functie',
+    'role_title' => 'Functietitel',
+    'role_title_placeholder' => 'Senior Laravel-developer',
+    'department' => 'Afdeling',
+    'department_engineering' => 'Ontwikkeling',
+    'department_design' => 'Design',
+    'department_product' => 'Product',
+    'department_marketing' => 'Marketing',
+    'department_support' => 'Support',
+    'employment' => 'Dienstverband',
+    'employment_full_time' => 'Voltijd',
+    'employment_part_time' => 'Deeltijd',
+    'employment_contract' => 'Tijdelijk',
+    'salary_min' => 'Minimumsalaris',
+    'salary_max' => 'Maximumsalaris',
+    'per_year' => '/jr',
+    'section_location' => 'Locatie',
+    'workplace' => 'Werkplek',
+    'workplace_remote' => 'Op afstand',
+    'workplace_remote_description' => 'Werk waar je wilt',
+    'workplace_hybrid' => 'Hybride',
+    'workplace_hybrid_description' => 'Twee dagen op kantoor',
+    'workplace_onsite' => 'Op kantoor',
+    'workplace_onsite_description' => 'Elke dag op kantoor',
+    'office' => 'Kantoor',
+    'office_bengaluru' => 'Bengaluru',
+    'office_berlin' => 'Berlijn',
+    'office_london' => 'Londen',
+    'office_new_york' => 'New York',
+    'office_singapore' => 'Singapore',
+    'start_date' => 'Startdatum',
+    'section_pipeline' => 'Sollicitatieproces',
+    'skills' => 'Vaardigheden',
+    'skill_testing' => 'Testen',
+    'stages' => 'Rondes',
+    'stages_help' => 'Sleep de rondes in de juiste volgorde.',
+    'submit' => 'Vacature openen',
+    'submitting' => 'Openen…',
+];

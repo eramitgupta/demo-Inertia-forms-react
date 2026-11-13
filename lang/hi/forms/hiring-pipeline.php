@@ -1,0 +1,46 @@
+<?php
+
+/*
+ * Text for HiringPipelineForm.
+ */
+
+return [
+    'section_role' => 'रोल',
+    'role_title' => 'रोल का नाम',
+    'role_title_placeholder' => 'सीनियर Laravel डेवलपर',
+    'department' => 'विभाग',
+    'department_engineering' => 'इंजीनियरिंग',
+    'department_design' => 'डिज़ाइन',
+    'department_product' => 'प्रोडक्ट',
+    'department_marketing' => 'मार्केटिंग',
+    'department_support' => 'सपोर्ट',
+    'employment' => 'नौकरी का प्रकार',
+    'employment_full_time' => 'फ़ुल-टाइम',
+    'employment_part_time' => 'पार्ट-टाइम',
+    'employment_contract' => 'कॉन्ट्रैक्ट',
+    'salary_min' => 'न्यूनतम सैलरी',
+    'salary_max' => 'अधिकतम सैलरी',
+    'per_year' => '/साल',
+    'section_location' => 'लोकेशन',
+    'workplace' => 'काम की जगह',
+    'workplace_remote' => 'रिमोट',
+    'workplace_remote_description' => 'कहीं से भी काम करें',
+    'workplace_hybrid' => 'हाइब्रिड',
+    'workplace_hybrid_description' => 'हफ़्ते में दो दिन ऑफ़िस',
+    'workplace_onsite' => 'ऑफ़िस से',
+    'workplace_onsite_description' => 'हर दिन ऑफ़िस',
+    'office' => 'ऑफ़िस',
+    'office_bengaluru' => 'बेंगलुरु',
+    'office_berlin' => 'बर्लिन',
+    'office_london' => 'लंदन',
+    'office_new_york' => 'न्यूयॉर्क',
+    'office_singapore' => 'सिंगापुर',
+    'start_date' => 'शुरू होने की तारीख़',
+    'section_pipeline' => 'हायरिंग प्रोसेस',
+    'skills' => 'स्किल्स',
+    'skill_testing' => 'टेस्टिंग',
+    'stages' => 'राउंड',
+    'stages_help' => 'राउंड को खींचकर सही क्रम में लगाएँ।',
+    'submit' => 'वैकेंसी खोलें',
+    'submitting' => 'खोली जा रही है…',
+];
